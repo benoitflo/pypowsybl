@@ -7,6 +7,8 @@
 import pandas as pd
 import pathlib
 import pytest
+
+import pypowsybl.network
 import pypowsybl.network as pn
 
 TEST_DIR = pathlib.Path(__file__).parent
@@ -230,7 +232,8 @@ def test_measurements():
     extensions = n.get_extensions(extension_name)
     assert extensions.empty
 
-    n.create_extensions(extension_name, id='measurement1', element_id=element_id, type='CURRENT', value=100, standard_deviation=2, valid=True)
+    n.create_extensions(extension_name, id='measurement1', element_id=element_id, type='CURRENT', value=100,
+                        standard_deviation=2, valid=True)
     e = n.get_extensions(extension_name).loc[element_id]
     assert e.id == 'measurement1'
     assert e.type == 'CURRENT'
@@ -239,7 +242,8 @@ def test_measurements():
     assert e.value == 2.0
     assert e.valid
     n.create_extensions(extension_name, id=['measurement2', 'measurement3'], element_id=[element_id, element_id],
-                        type=['REACTIVE_POWER', 'ACTIVE_POWER'], value=[200, 180], standard_deviation=[21, 23], valid=[True, True])
+                        type=['REACTIVE_POWER', 'ACTIVE_POWER'], value=[200, 180], standard_deviation=[21, 23],
+                        valid=[True, True])
     e = n.get_extensions(extension_name).loc[element_id]
     expected = pd.DataFrame(index=pd.Series(name='element_id', data=['LD1', 'LD1']),
                             columns=['id', 'type', 'side', 'standard_deviation', 'value', 'valid'],
@@ -293,6 +297,7 @@ def test_branch_observability():
     n.remove_extensions(extension_name, [element_id])
     assert n.get_extensions(extension_name).empty
 
+
 def test_connectable_position():
     n = pn.create_four_substations_node_breaker_network()
     extension_name = 'position'
@@ -333,3 +338,36 @@ def test_busbar_section_position():
     assert e.section_index == 1
     n.remove_extensions(extension_name, [element_id])
     assert n.get_extensions(extension_name).empty
+
+
+def test_get_extensions_information():
+    extensions_information = pypowsybl.network.get_extensions_information()
+    assert extensions_information.loc['measurements']['detail'] == 'Provides measurement about a specific equipment'
+    assert extensions_information.loc['measurements']['attributes'] == 'index : element_id (str),id (str), type (str), ' \
+                                                                       'standard_deviation (float), value (float), valid (bool)'
+    assert extensions_information.loc['branchObservability']['detail'] == 'Provides information about the observability of a branch'
+    assert extensions_information.loc['branchObservability']['attributes'] == 'index : id (str), observable (bool), ' \
+                                                                              'p1_standard_deviation (float), p1_redundant (bool), ' \
+                                                                              'p2_standard_deviation (float), p2_redundant (bool), ' \
+                                                                              'q1_standard_deviation (float), q1_redundant (bool), ' \
+                                                                              'q2_standard_deviation (float), q2_redundant (bool)'
+    assert extensions_information.loc['hvdcAngleDroopActivePowerControl']['detail'] == 'Active power control mode based on an offset in MW and a droop in MW/degree'
+    assert extensions_information.loc['hvdcAngleDroopActivePowerControl']['attributes'] == 'index : id (str), droop (float), p0 (float), enabled (bool)'
+    assert extensions_information.loc['injectionObservability']['detail'] == 'Provides information about the observability of a injection'
+    assert extensions_information.loc['injectionObservability'][
+               'attributes'] == 'index : id (str), observable (bool), p_standard_deviation (float), p_redundant (bool), q_standard_deviation (float), q_redundant (bool), v_standard_deviation (float), v_redundant (bool)'
+    assert extensions_information.loc['detail']['detail'] == 'Provides active power setpoint and reactive power setpoint for a load'
+    assert extensions_information.loc['detail'][
+               'attributes'] == 'index : id (str), fixed_p (float), variable_p (float), fixed_q (float), variable_q (float)'
+    assert extensions_information.loc['hvdcOperatorActivePowerRange']['detail'] == ''
+    assert extensions_information.loc['hvdcOperatorActivePowerRange']['attributes'] == 'index : id (str), opr_from_cs1_to_cs2 (float), opr_from_cs2_to_cs1 (float)'
+    assert extensions_information.loc['mergedXnode']['detail'] == 'Provides information about the border point between 2 TSOs on a merged line'
+    assert extensions_information.loc['mergedXnode']['attributes'] == 'index : id (str), code (str), line1 (str), line2 (str), r_dp (float), x_dp (float), g1_dp (float), b1_dp (float), g2_dp (float), b2_dp (float), p1 (float), q1 (float), p2 (float), q2 (float)'
+    assert extensions_information.loc['activePowerControl']['detail'] == 'Provides information about the participation of generators to balancing'
+    assert extensions_information.loc['activePowerControl']['attributes'] == 'index : id (str), participate(bool), droop (float)'
+    assert extensions_information.loc['entsoeCategory']['detail'] == 'Provides Entsoe category code for a generator'
+    assert extensions_information.loc['entsoeCategory']['attributes'] == 'index : id (str), code (int)'
+    assert extensions_information.loc['entsoeArea']['detail'] == 'Provides Entsoe geographical code for a substation'
+    assert extensions_information.loc['entsoeArea']['attributes'] == 'index : id (str), code (str)'
+    assert extensions_information.loc['xnode']['detail'] == 'Provides information about the border point of a TSO on a dangling line'
+    assert extensions_information.loc['xnode']['attributes'] == 'index : id (str), code (str)'

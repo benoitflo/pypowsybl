@@ -796,6 +796,10 @@ std::vector<std::string> getExtensionsNames() {
     return formats.get();
 }
 
+SeriesArray* getExtensionsInformation() {
+    return new SeriesArray(callJava<array*>(::getExtensionsInformation));
+}
+
 std::string getWorkingVariantId(const JavaHandle& network) {
     return toString(callJava<char*>(::getWorkingVariantId, network));
 }
