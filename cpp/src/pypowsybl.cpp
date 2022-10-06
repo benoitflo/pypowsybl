@@ -1123,4 +1123,11 @@ std::vector<int> getUnusedConnectableOrderPositions(const pypowsybl::JavaHandle 
     return res.get();
 }
 
+void replaceTeePointByVoltageLevelOnLine(pypowsybl::JavaHandle network, std::string line1ZId, std::string lineZ2Id, std::string lineZPId, std::string voltageLevelId,
+    std::string bbsOrBusId, std::string line1CId, std::string line1CName, std::string lineC2Id, std::string lineC2Name) {
+    pypowsybl::callJava(::replaceTeePointByVoltageLevelOnLine, network, (char*)line1ZId.c_str(), (char*)lineZ2Id.c_str(), (char*)lineZPId.c_str(),
+     (char*)voltageLevelId.c_str(), (char*)bbsOrBusId.c_str(), (char*)line1CId.c_str(), (char*)line1CName.c_str(), (char*)lineC2Id.c_str(),
+     (char*)lineC2Name.c_str());
+}
+
 }

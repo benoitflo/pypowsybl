@@ -464,6 +464,9 @@ SeriesArray* getConnectablesOrderPositions(const JavaHandle& network, const std:
 
 std::vector<int> getUnusedConnectableOrderPositions(pypowsybl::JavaHandle network, std::string busbarSectionId, std::string beforeOrAfter);
 
+void replaceTeePointByVoltageLevelOnLine(pypowsybl::JavaHandle network, std::string line1ZId, std::string lineZ2Id, std::string lineZPId, std::string voltageLevelId,
+    std::string bbsOrBusId, std::string line1CId, std::string line1CName, std::string lineC2Id, std::string lineC2Name);
+
 }
 
 #endif //PYPOWSYBL_H
