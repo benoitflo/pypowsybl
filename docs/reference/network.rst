@@ -67,6 +67,7 @@ All network elements are accessible as dataframes, using the following getters.
    Network.get_2_windings_transformers
    Network.get_3_windings_transformers
    Network.get_batteries
+   Network.get_branches
    Network.get_bus_breaker_topology
    Network.get_busbar_sections
    Network.get_buses
@@ -74,6 +75,8 @@ All network elements are accessible as dataframes, using the following getters.
    Network.get_dangling_lines
    Network.get_generators
    Network.get_hvdc_lines
+   Network.get_identifiables
+   Network.get_injections
    Network.get_lcc_converter_stations
    Network.get_lines
    Network.get_loads
@@ -90,6 +93,7 @@ All network elements are accessible as dataframes, using the following getters.
    Network.get_static_var_compensators
    Network.get_substations
    Network.get_switches
+   Network.get_terminals
    Network.get_voltage_levels
    Network.get_vsc_converter_stations
 
