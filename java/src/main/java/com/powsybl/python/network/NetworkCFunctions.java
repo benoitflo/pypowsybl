@@ -898,4 +898,14 @@ public final class NetworkCFunctions {
         });
     }
 
+    @CEntryPoint(name = "removeDeeply")
+    public static void removeDeeply(IsolateThread thread, ObjectHandle networkHandle,
+                                    CCharPointerPointer idsPtrPtr, int idsCount, ExceptionHandlerPointer exceptionHandlerPtr) {
+        doCatch(exceptionHandlerPtr, () -> {
+            List<String> ids = toStringList(idsPtrPtr, idsCount);
+            Network network = ObjectHandles.getGlobal().get(networkHandle);
+
+        });
+    }
+
 }
