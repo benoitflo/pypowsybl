@@ -451,6 +451,35 @@ void connectVoltageLevelOnLine(pypowsybl::JavaHandle network, std::string bbsIdB
     std::string line1Id, std::string line1Name, std::string line2Id, std::string line2Name, float positionPercent);
 void createFeederBay(pypowsybl::JavaHandle network, bool throwException, JavaHandle* reporter, dataframe_array* dataframes, element_type elementType);
 
+//=======dynamic modeling for dynawaltz package==========
+
+//handle creation
+JavaHandle createDynamicSimulationContext();
+JavaHandle createDynamicModelMapping();
+JavaHandle createTimeseriesMapping();
+JavaHandle createEventMapping();
+
+JavaHandle runDynamicModel(JavaHandle dynamicModelContext, JavaHandle network, JavaHandle dynamicMapping, JavaHandle eventMapping, JavaHandle timeSeriesMapping, int start, int stop);
+
+// dynamic model mapping
+void addAlphaBetaLoad(JavaHandle dynamicMappingHandle, std::string staticId, std::string dynamicParam);
+void addOneTransformerLoad(JavaHandle dynamicMappingHandle, std::string staticId, std::string dynamicParam);
+void addOmegaRef(JavaHandle dynamicMappingHandle, std::string generatorId);
+void addGeneratorSynchronousThreeWindings(JavaHandle dynamicMappingHandle, std::string staticId, std::string dynamicParam);
+void addGeneratorSynchronousThreeWindingsProportionalRegulations(JavaHandle dynamicMappingHandle, std::string staticId, std::string dynamicParam);
+void addGeneratorSynchronousFourWindings(JavaHandle dynamicMappingHandle, std::string staticId, std::string dynamicParam);
+void addGeneratorSynchronousFourWindingsProportionalRegulations(JavaHandle dynamicMappingHandle, std::string staticId, std::string dynamicParam);
+void addCurrentLimitAutomaton(JavaHandle dynamicMappingHandle, std::string staticId, std::string dynamicParam, std::string branchSide);
+
+// timeseries/curves mapping
+void addCurve(JavaHandle curveMappingHandle, std::string dynamicId, std::string variable);
+
+// events mapping
+void addEventQuadripoleDisconnection(JavaHandle eventMappingHandle, std::string eventModelId, std::string staticId, std::string parameterSetId);
+void addEventSetPointBoolean(JavaHandle eventMappingHandle, std::string eventModelId, std::string staticId, std::string parameterSetId);
+
+// config ?
+void setPowSyBlConfigLocation(std::string absolutePathToConfig, std::string configFileName);
 }
 
 #endif //PYPOWSYBL_H
