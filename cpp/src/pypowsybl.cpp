@@ -1129,4 +1129,9 @@ void removeAliases(pypowsybl::JavaHandle network, dataframe* dataframe) {
     pypowsybl::callJava(::removeAliases, network, dataframe);
 }
 
+void removeFeederBays(pypowsybl::JavaHandle network, const std::vector<std::string>&  connectableIds) {
+    ToCharPtrPtr connectableIdsPtr(connectableIds);
+    pypowsybl::callJava(::removeFeederBays, network, connectableIdsPtr.get(), connectableIds.size());
+}
+
 }

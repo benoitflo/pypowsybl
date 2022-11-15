@@ -466,6 +466,8 @@ std::vector<int> getUnusedConnectableOrderPositions(pypowsybl::JavaHandle networ
 
 void removeAliases(pypowsybl::JavaHandle network, dataframe* dataframe);
 
+void removeFeederBays(pypowsybl::JavaHandle network, const std::vector<std::string>&  connectableIds);
+
 }
 
 #endif //PYPOWSYBL_H
