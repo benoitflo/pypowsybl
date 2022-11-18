@@ -33,7 +33,7 @@ Or in a Jupyter notebook, the SVG can be directly rendered in the notebook:
 
 .. code-block:: python
 
-    >>> network.get_network_area_diagram_svg()
+    >>> network.get_network_area_diagram()
 
 .. image:: ../_static/images/ieee14.svg
 
