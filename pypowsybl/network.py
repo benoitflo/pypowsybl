@@ -3678,7 +3678,7 @@ class Network:  # pylint: disable=too-many-public-methods
             Valid attributes are:
 
             - **id**: the identifier of the new switch
-            - **voltage_level1_id**: the voltage level where the new switch will be connected on side 1.
+            - **voltage_level_id**: the voltage level where the new switch will be connected on side 1.
               The voltage level must already exist.
             - **bus1_id**: the bus where the new switch will be connected on side 1,
               if the voltage level has a bus-breaker topology kind.
